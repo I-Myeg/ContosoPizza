@@ -1,3 +1,7 @@
+using ContosoPizza.Database;
+using ContosoPizza.Models;
+using ContosoPizza.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddNpgsql<DatabaseContext>(
+    connectionString: "Host=localhost;Port=5432;Username=postgres;Password=root;Database=pizza-db");
+builder.Services.AddScoped<PizzaStore>();
 
 var app = builder.Build();
 

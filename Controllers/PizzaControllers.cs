@@ -8,13 +8,18 @@ namespace ContosoPizza.Controllers;
 [Route("[controller]")]
 public class PizzaController : ControllerBase
 {
-    public PizzaController()
+
+    private readonly PizzaStore _pizzaStore;
+    public PizzaController(PizzaStore pizzaStore)
     {
+        _pizzaStore = pizzaStore;
     }
 
     [HttpGet]
-    public ActionResult<List<Pizza>> GetAll() =>
-        PizzaService.GetAll();
+    public async Task<ActionResult<List<Pizza>>> GetAll()
+    {
+        return await _pizzaStore.GetAll();
+    }
 
     [HttpGet("{id}")]
     public ActionResult<Pizza> Get(int id)
