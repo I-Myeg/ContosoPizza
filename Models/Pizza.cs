@@ -7,4 +7,6 @@ public class Pizza
     public bool IsGlutenFree { get; set; }
     
     public int Cost { get; set; }
+    
+    public string? Size { get; set; }
 }
