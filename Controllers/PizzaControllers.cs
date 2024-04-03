@@ -22,9 +22,9 @@ public class PizzaController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Pizza> Get(int id)
+    public async Task<ActionResult<Pizza>> Get(int id)
     {
-        var pizza = PizzaService.Get(id);
+        var pizza = await _pizzaStore.Get(id);
 
         if(pizza == null)
             return NotFound();
@@ -33,36 +33,36 @@ public class PizzaController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(Pizza pizza)
+    public async Task<IActionResult> Create(Pizza pizza)
     {            
-        PizzaService.Add(pizza);
+        await _pizzaStore.Add(pizza);
         return CreatedAtAction(nameof(Get), new { id = pizza.Id }, pizza);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, Pizza pizza)
+    public async Task<IActionResult> Update(int id, Pizza pizza)
     {
         if (id != pizza.Id)
             return BadRequest();
            
-        var existingPizza = PizzaService.Get(id);
+        var existingPizza = await _pizzaStore.Get(id);
         if(existingPizza is null)
             return NotFound();
    
-        PizzaService.Update(pizza);           
+        await _pizzaStore.Update(pizza);           
    
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var pizza = PizzaService.Get(id);
+        var pizza = await _pizzaStore.Get(id);
    
         if (pizza is null)
             return NotFound();
        
-        PizzaService.Delete(id);
+        await _pizzaStore.Delete(id);
    
         return NoContent();
     }

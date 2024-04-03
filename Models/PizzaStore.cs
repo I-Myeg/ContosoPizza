@@ -11,6 +11,12 @@ public class PizzaStore
     {
         _context = context;
     }
+    
+    public async Task<Pizza> Get(int id)
+    {
+        return await _context.Pizzas.FindAsync(id);
+    }
+
 
     public async Task<List<Pizza>> GetAll()
     {
@@ -30,5 +36,15 @@ public class PizzaStore
 
         _context.Pizzas.Update(entity);
         await _context.SaveChangesAsync();
+    }
+    
+    public async Task Delete(int id)
+    {
+        var pizza = await _context.Pizzas.FindAsync(id);
+        if (pizza != null)
+        {
+            _context.Pizzas.Remove(pizza);
+            await _context.SaveChangesAsync();
+        }
     }
 }
